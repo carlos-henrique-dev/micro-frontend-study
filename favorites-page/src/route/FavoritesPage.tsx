@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { SafeComponent } from '../components'
 import { Character } from '../types/character'
 
+// TODO: add types
 // @ts-ignore
 import { useFavorites } from 'listingPage/favorites'
 
@@ -42,7 +43,7 @@ function FavoritesPage() {
         ) : (
           <Result
             title="No favorites"
-            subTitle="You don't have any favorite character to be displayed"
+            subTitle="You don't have any favorite characters to be displayed"
             status="info"
             extra={
               <Link to="/">

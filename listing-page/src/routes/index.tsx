@@ -13,6 +13,7 @@ export const lazy = (componentImportFn: Function) =>
     return typeof obj.default === 'function' ? obj : obj.default
   })
 
+// TODO: add types
 // @ts-ignore
 const Favorites = lazy(() => import('favoritesPage/favoritesRoute'))
 
