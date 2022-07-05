@@ -1,0 +1,22 @@
+{
+	"name": "poc_mf",
+	"version": "1.0.0",
+	"description": "Neste repositório encontra-se um pequeno estudo realizado para aprendizado sobre micro frontend. Ele conta com 3 micro aplicações:",
+	"main": "index.js",
+	"scripts": {
+		"install-deps": "concurrently 'yarn --cwd ./remote/' 'yarn --cwd ./listing-page/' 'yarn --cwd ./favorites-page/'",
+		"start": "concurrently 'yarn --cwd ./remote/ dev' 'yarn --cwd ./listing-page/ start' 'yarn --cwd ./favorites-page/ start'",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/carlos-henrique-dev/micro-frontend-study.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/carlos-henrique-dev/micro-frontend-study/issues"
+	},
+	"homepage": "https://github.com/carlos-henrique-dev/micro-frontend-study#readme"
+}

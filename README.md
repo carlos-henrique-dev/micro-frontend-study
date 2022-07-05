@@ -13,13 +13,15 @@ Neste repositório encontra-se um pequeno estudo realizado para aprendizado sobr
 - Recoil: 0.7
 - React Router Dom: 5
 
-## Como rodar o projeto
+## Rodando o projeto
 
-Entre na pasta `remote` e execute o comando `yarn` para instalar as dependências e depois `yarn dev` para rodar
+### instalando dependências
 
-Entre na pasta `listing-page` e execute o comando `yarn` para instalar as dependências e depois `yarn start` para rodar
+na raiz do projeto, rode o comando `npx concurrently "yarn:install-deps"` para instalar todas as dependências dos 3 apps
 
-Entre na pasta `favorites-page` e execute o comando `yarn` para instalar as dependências e depois `yarn start` para rodar
+### rodando as aplicações
+
+na raiz do projeto, rode o comando `npx concurrently "yarn:start"` para rodas os 3 apps simultaneamente
 
 ---
 
