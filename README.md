@@ -15,13 +15,13 @@ Neste repositório encontra-se um pequeno estudo realizado para aprendizado sobr
 
 ## Rodando o projeto
 
-### instalando dependências
+### Instalando dependências
 
 na raiz do projeto, rode o comando `npx concurrently "yarn:install-deps"` para instalar todas as dependências dos 3 apps
 
-### rodando as aplicações
+### Rodando as aplicações
 
-na raiz do projeto, rode o comando `npx concurrently "yarn:start"` para rodas os 3 apps simultaneamente
+na raiz do projeto, rode o comando `npx concurrently "yarn:start"` para rodar os 3 apps simultaneamente
 
 ---
 
