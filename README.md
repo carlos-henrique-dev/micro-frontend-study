@@ -1,35 +1,37 @@
-# Estudo sobre Micro frontend
+# Study on Micro Frontend
 
-Neste repositório encontra-se um pequeno estudo realizado para aprendizado sobre micro frontend. Ele conta com 3 micro aplicações:
+In this repository, you will find a small study conducted for learning about micro frontend. It includes 3 micro applications:
 
-- **listing-page:** lista os personagens da série Rick & Morty e permite que o usuário adicione e remova personagens da lista de favoritos. Esta aplicação também expõe uma instância do estado gerenciado pelo recoil e que é consumida pela `favorites-page` que consegue "visualizar" os cards que foram selecionados como favoritos na `listing-page`
-- **favorites-page:** renderiza uma página com os personagens selecionados como favoritos pelo usuário e permite que ele os remova da lista;
-- **remote:** exporta 2 componentes genéricos que são consumidos pelas 2 outras aplicações
+- **listing-page**: Lists the characters from the series Rick & Morty and allows the user to add and remove characters from the favorites list. This application also exposes an instance of the state managed by recoil, which is consumed by the favorites-page that can "view" the cards selected as favorites in the listing-page.
+  
+- **favorites-page**: Renders a page with the characters selected as favorites by the user and allows them to remove characters from the list.
 
-## Stack utilizada
+- **remote**: Exports 2 generic components that are consumed by the other 2 applications.
+
+## Stack
 
 - React: 18
 - Antd: 4.21
 - Recoil: 0.7
 - React Router Dom: 5
 
-## Rodando o projeto
+## Running the project
 
-### Instalando dependências
+### Installing dependencies
 
-na raiz do projeto, rode o comando `npx concurrently "yarn:install-deps"` para instalar todas as dependências dos 3 apps
+In the root of the project, run the command `npx concurrently "yarn:install-deps"` to install all dependencies for the 3 apps.
 
-### Rodando as aplicações
+### Running the applications
 
-na raiz do projeto, rode o comando `npx concurrently "yarn:start"` para rodar os 3 apps simultaneamente
+In the root of the project, run the command `npx concurrently "yarn:start"` to run the 3 apps simultaneously.
 
 ---
 
-## Detalhes da implementação
+## Implementation details
 
-Abaixo estão alguns detalhes da implementação do projeto
+Below are some details of the project implementation.
 
-### Compartilhamento de componentes
+### Component sharing
 
 ```javascript
 // remote - webpack.config.js
@@ -60,7 +62,7 @@ const { dependencies } = require('./package.json')
   ],
 ```
 
-Para compartilhar os componentes genéricos `CharactersCard` e `Header` a aplicação `remote` utiliza o plugin `ModuleFederationPlugin` configurando o seu nome na rede, o arquivo que será gerado com o bundle, o nome e caminho dos componentes exportados e um objeto detalhando as dependências necessárias para executar os componentes
+To share the generic components `CharactersCard` and `Header`, the `remote` application uses the `ModuleFederationPlugin` plugin by configuring its network name, the file that will be generated with the bundle, the name and path of the exported components, and an object detailing the dependencies required to run the components.
 
 ```javascript
 // listing-page
@@ -88,8 +90,7 @@ const { dependencies } = require('./package.json')
 const CharacterCard = React.lazy(() => import('remote/CharactersCard'))
 ```
 
-De forma semelhante, a aplicação `listing-page` expõe os componentes compartilhados, com a adição da configuração de `remotes` que são os endereços remotos das aplicações que estão compartilhando informação.
-Depois de configurado, para utilizar o componente remoto basta usar a importação dinâmica passando `chaveRemota/NomeDoComponente`.
+Similarly, the `listing-page` application exposes the shared components, with the addition of the `remotes` configuration, which are the remote addresses of the applications sharing information. After being configured, to use the remote component, you just need to use dynamic import by passing `remoteKey/ComponentName`.
 
 ---
 
@@ -101,8 +102,7 @@ Depois de configurado, para utilizar o componente remoto basta usar a importaç�
 </SafeComponent>
 ```
 
-No snippet acima temos o SafeComponent que envolve o CharacterCard.
-CharacterCard é um componente remoto importado dinamicamente e que está sujeito à falhas. Por isto é necessário o uso do Wrapper "SafeComponent" que é um componente de classe que recebe um componente filho e fica verificando por erros, se algum erro acontecer na renderização ele exibe uma mensagem de aviso e evita que a árvore de componentes inteira seja afetada
+In the snippet above, we have the SafeComponent wrapping the CharacterCard. CharacterCard is a dynamically imported remote component that is subject to failures. Therefore, it is necessary to use the "SafeComponent" wrapper, which is a class component that receives a child component and checks for errors. If any error occurs during rendering, it displays a warning message and prevents the entire component tree from being affected.
 
 ### Lazy routes
 
@@ -125,15 +125,15 @@ const Favorites = lazy(() => import('favoritesPage/favoritesRoute'))
 ...
 ```
 
-No snippet acima temos um exemplo de importação dinâmica de uma rota remota (favorites). Como a rota pode não estar disponível no momento da execução, então é utilizada uma [função genérica de importação](https://github.com/fuse-box/fuse-box/issues/1646#issuecomment-572242548) que permite importar o componente como constante e depois envolver ele em um SafeComponent
+In the snippet above, we have an example of dynamic import of a remote route (favorites). Since the route may not be available at runtime, a [generic import function](https://github.com/fuse-box/fuse-box/issues/1646#issuecomment-572242548) is used, which allows importing the component as a constant and then wrapping it in a SafeComponent.
 
-> Importante: Durante os testes de implementação tive dificuldades para importar todo o objeto de rota (`{path, component, exact, etc}`) remotamente e por isso importei apenas o componente. Cabe mais estudos para entender como implementar isso corretamente.
+> Important: During implementation testing, I had difficulties importing the entire route object (`{path, component, exact, etc}`) remotely, so I imported only the component. Further studies are needed to understand how to implement this correctly.
 
 ---
 
-### Configuração do projeto
+### Project configuration
 
-Um detalhe ao utilizar o module federation é que o arquivo index.tsx do react não pode manter o funcionamento padrão (importar os elementos iniciais e iniciar o projeto). Ele precisa apenas importar um arquivo que já faz isso, ficando assim:
+One detail when using module federation is that the index.tsx file of react cannot maintain the standard operation (importing the initial elements and starting the project). It needs to import a file that already does this, like this:
 
 ```javascript
 // src/bootstrap.tsx
@@ -151,9 +151,9 @@ import('./bootstrap')
 export {}
 ```
 
-### Tipagem
+### Typing
 
-Com o uso de componentes remotos o typescript não consegue entender bem a tipagem dos componentes e funções então é necessário o uso de um arquivo de definições
+With the use of remote components, TypeScript cannot understand the typing of components and functions well, so it is necessary to use a definitions file.
 
 ```javascript
 // src/remote.d.ts
@@ -172,19 +172,19 @@ declare module 'remote/CharactersCard' {
 
 ---
 
-### Considerações
+### Considerations
 
-O uso do module federation permite isolar e desacoplar o código com mais facilidade.
+The use of module federation allows for easier isolation and decoupling of code.
 
-Mas observei 2 pontos que precisam ser levados em consideração:
+But I observed 2 points that need to be considered:
 
-- **Repetição de código**: em alguns casos precisei repetir código como na declaração de tipagem, declaração do SafeComponent. Mas nesse caso acredito que o uso de uma biblioteca resolva isso, embora adicione outros detalhes como cuidado com versionamento da biblioteca, etc.
-
-- **Mudança de configuração**: o module federation funciona sem problemas para projetos utilizando webpack 5, então para projetos com versões anteriores é necessário atualizar e fazer override de configurações e isso pode gerar alguns conflitos na hora de rodar o projeto novamente. Além do code-splitting que fica diferente ao usar o mf, por isso também é um ponto que deve ser considerado com cuidado
+- **Code repetition**: in some cases, I needed to repeat code such as in the typing declaration, declaration of SafeComponent. But in this case, I believe using a library solves this, although it adds other details such as library versioning, etc.
+  
+- **Configuration change**: module federation works without problems for projects using webpack 5, so for projects with previous versions, it is necessary to update and override configurations, which can cause some conflicts when running the project again. Also, the code-splitting is different when using mf, so this is also a point that should be carefully considered.
 
 ---
 
-### Referências
+### References
 
 - [Webpack module federation](https://webpack.js.org/concepts/module-federation/)
 - [Intro to micro frontend](https://micro-frontends.org/)
